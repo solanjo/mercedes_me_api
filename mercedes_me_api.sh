@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Author: G. Ravera
-# Version 0.5
+# Version 0.6.1
 # Creation Date: 28/09/2020
 #
 # Change log:
@@ -11,28 +11,29 @@
 #             18/12/2020 - 0.4 - Added macOS support (robert@klep.name)
 #             19/12/2020 - 0.5 - Added Electric Vehicle Status support
 #             23/12/2020 - 0.6 - Added PayAsYouDrive support (danielrheinbay@gmail.com)
+#             01/01/2022 - 0.6.1 - Removed Fuelstatus, Vehiclestatus, Vehiclelock, payasyoudrive - as this may not be available on some MB Cars  
 
 # Script Name & Version
 NAME="mercedes_me_api.sh"
-VERSION="0.6"
+VERSION="0.6.1"
 
 # Script Parameters
 TOKEN_FILE=".mercedesme_token"
 CONFIG_FILE=".mercedesme_config"
 # Mercedes me Application Parameters
 REDIRECT_URL="https://localhost"
-SCOPE="mb:vehicle:mbdata:fuelstatus%20mb:vehicle:mbdata:vehiclestatus%20mb:vehicle:mbdata:vehiclelock%20mb:vehicle:mbdata:evstatus%20mb:vehicle:mbdata:payasyoudrive%20offline_access"
+SCOPE="mb:vehicle:mbdata:evstatus%20offline_access"
 RES_URL_PREFIX="https://api.mercedes-benz.com/vehicledata/v2"
 # Resources
-RES_FUEL=(rangeliquid tanklevelpercent)
-RES_LOCK=(doorlockstatusvehicle doorlockstatusdecklid doorlockstatusgas positionHeading)
-RES_STAT=(decklidstatus doorstatusfrontleft doorstatusfrontright doorstatusrearleft doorstatusrearright \
+# RES_FUEL=(rangeliquid tanklevelpercent)
+# RES_LOCK=(doorlockstatusvehicle doorlockstatusdecklid doorlockstatusgas positionHeading)
+# RES_STAT=(decklidstatus doorstatusfrontleft doorstatusfrontright doorstatusrearleft doorstatusrearright \
           interiorLightsFront interiorLightsRear lightswitchposition readingLampFrontLeft readingLampFrontRight \
           rooftopstatus sunroofstatus \
           windowstatusfrontleft windowstatusfrontright windowstatusrearleft windowstatusrearright
 )
 RES_ELECTRIC=(soc rangeelectric)
-RES_ODO=(odo)
+# RES_ODO=(odo)
 
 # set "extended regular expression" argument for sed based on OS
 if [ "X$(uname -s)" = "XDarwin" ]
@@ -62,17 +63,17 @@ function usage ()
 {
   echo "Usage:    $NAME <arguments>"
   echo
-  echo "Example:  $NAME --token --fuel"
-  echo "     or:  $NAME -l"
+  echo "Example:  $NAME --token --electric-status"
+  echo "     or:  $NAME -e"
   echo
   echo "Arguments:"
   echo "    -t, --token           Procedure to obtatin the Access Token (stored into $TOKEN_FILE)"
   echo "    -r, --refresh         Procedure to refresh the Access Token (stored into $TOKEN_FILE)"
-  echo "    -f, --fuel            Retrieve the Fuel Status of your Vehicle"
-  echo "    -l, --lock            Retrieve the Lock Status of your Vehicle"
-  echo "    -s, --status          Retrieve the General Status of your Vehicle"
+#  echo "    -f, --fuel            Retrieve the Fuel Status of your Vehicle"
+#  echo "    -l, --lock            Retrieve the Lock Status of your Vehicle"
+#  echo "    -s, --status          Retrieve the General Status of your Vehicle"
   echo "    -e, --electric-status Retrieve the General Electric Status of your Vehicle"
-  echo "    -o, --odometer        Retrieve the Odometer reading of your Vehicle"
+#  echo "    -o, --odometer        Retrieve the Odometer reading of your Vehicle"
   echo "    -R, --resources       Retrieve the list of available resources of your Vehicle"
   exit
 }
@@ -98,26 +99,26 @@ function parse_options ()
 				refreshAuthCode	
 				shift
 				;;
-			-f | --fuel )
-				printStatus "${RES_FUEL[@]}"
-				shift
-				;;
-			-l | --lock )
-				printStatus "${RES_LOCK[@]}"
-				shift
-				;;
-			-s | --status )
-				printStatus "${RES_STAT[@]}"
-				shift
-				;;
+	#		-f | --fuel )
+	#			printStatus "${RES_FUEL[@]}"
+	#			shift
+	#			;;
+	#		-l | --lock )
+	#			printStatus "${RES_LOCK[@]}"
+	#			shift
+	#			;;
+	#		-s | --status )
+	#			printStatus "${RES_STAT[@]}"
+	#			shift
+	#			;;
 			-e | --electric-status )
 				printStatus "${RES_ELECTRIC[@]}"
 				shift
 				;;
-			-o | --odometer )
-				printStatus "${RES_ODO[@]}"
-				shift
-				;;
+	#		-o | --odometer )
+	#			printStatus "${RES_ODO[@]}"
+	#			shift
+	#			;;
 			-R | --resources )
 				printResources
 				shift
