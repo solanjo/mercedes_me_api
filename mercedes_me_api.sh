@@ -28,10 +28,10 @@ RES_URL_PREFIX="https://api.mercedes-benz.com/vehicledata/v2"
 # RES_FUEL=(rangeliquid tanklevelpercent)
 # RES_LOCK=(doorlockstatusvehicle doorlockstatusdecklid doorlockstatusgas positionHeading)
 # RES_STAT=(decklidstatus doorstatusfrontleft doorstatusfrontright doorstatusrearleft doorstatusrearright \
-          interiorLightsFront interiorLightsRear lightswitchposition readingLampFrontLeft readingLampFrontRight \
-          rooftopstatus sunroofstatus \
-          windowstatusfrontleft windowstatusfrontright windowstatusrearleft windowstatusrearright
-)
+#          interiorLightsFront interiorLightsRear lightswitchposition readingLampFrontLeft readingLampFrontRight \
+#          rooftopstatus sunroofstatus \
+#          windowstatusfrontleft windowstatusfrontright windowstatusrearleft windowstatusrearright
+#)
 RES_ELECTRIC=(soc rangeelectric)
 # RES_ODO=(odo)
 
