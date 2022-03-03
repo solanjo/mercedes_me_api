@@ -39,10 +39,9 @@ To use this script it's necessary to perform the following instructions:
 1) clone the repository
 2) create a config file (.mercedesme_config) with:
 ```bash
-CLIENT_ID=<**INSERT_YOUR_CLIENT_ID**>
-CLIENT_SECRET=<**INSERT_YOUR_CLIENT_SECRET**>
-VEHICLE_ID=<**INSERT_YOUR_VEHICLE_ID**>
-ENABLE_RESOURCES_FILE: <**ENABLE (true) OR DISABLE (false) RESOURCES - (DEFAULT DISABLED)**>
+CLIENT_ID=<INSERT_YOUR_CLIENT_ID>
+CLIENT_SECRET=<INSERT_YOUR_CLIENT_SECRET>
+VEHICLE_ID=<INSERT_YOUR_VEHICLE_ID>
 ```
 
 where CLIENT_ID and CLIENT_SECRET referring to the application information that can be found in [Mercedes Developer Console](https://developer.mercedes-benz.com/console) and VEHICLE_ID is the VIN of your car.
