@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Author: G. Ravera
-# Version 0.6
+# Version 0.8
 # Creation Date: 28/09/2020
 #
 # Change log:
@@ -11,17 +11,18 @@
 #             18/12/2020 - 0.4 - Added macOS support (robert@klep.name)
 #             19/12/2020 - 0.5 - Added Electric Vehicle Status support
 #             23/12/2020 - 0.6 - Added PayAsYouDrive support (danielrheinbay@gmail.com)
+#.            05/11/2022 - 0.8 - Fixed change in OAUTH-urls
 
 # Script Name & Version
 NAME="mercedes_me_api.sh"
-VERSION="0.6"
+VERSION="0.8"
 
 # Script Parameters
 TOKEN_FILE=".mercedesme_token"
 CONFIG_FILE=".mercedesme_config"
 # Mercedes me Application Parameters
 REDIRECT_URL="https://localhost"
-SCOPE="mb:vehicle:mbdata:fuelstatus%20mb:vehicle:mbdata:vehiclestatus%20mb:vehicle:mbdata:vehiclelock%20mb:vehicle:mbdata:evstatus%20mb:vehicle:mbdata:payasyoudrive%20offline_access"
+SCOPE="openid%20mb:vehicle:mbdata:fuelstatus%20mb:vehicle:mbdata:vehiclestatus%20mb:vehicle:mbdata:vehiclelock%20mb:vehicle:mbdata:evstatus%20mb:vehicle:mbdata:payasyoudrive%20offline_access"
 RES_URL_PREFIX="https://api.mercedes-benz.com/vehicledata/v2"
 # Resources
 RES_FUEL=(rangeliquid tanklevelpercent)
@@ -139,15 +140,14 @@ function getAuthCode ()
   
   echo "Open the browser and insert this link:"
   echo 
-  echo "https://id.mercedes-benz.com/as/authorization.oauth2?response_type=code&client_id=$CLIENT_ID&redirect_uri=$REDIRECT_URL&scope=$SCOPE"
-  #echo "https://id.mercedes-benz.com/as/authorization.oauth2?response_type=code&client_id=$CLIENT_ID&redirect_uri=$REDIRECT_URL&scope=$SCOPE&state=$STATE"
+  echo "https://ssoalpha.dvb.corpinter.net/v1/auth?response_type=code&client_id=$CLIENT_ID&redirect_uri=$REDIRECT_URL&scope=$SCOPE"
   echo 
   echo "Copy the code in the url:"
 
   read AUTH_CODE
 
   TOKEN=$(curl --request POST \
-               --url https://id.mercedes-benz.com/as/token.oauth2 \
+               --url https://ssoalpha.dvb.corpinter.net/v1/token \
                --header "Authorization: Basic $BASE64" \
                --header "content-type: application/x-www-form-urlencoded" \
                --data "grant_type=authorization_code&code=$AUTH_CODE&redirect_uri=$REDIRECT_URL")
@@ -161,7 +161,7 @@ function refreshAuthCode ()
   extractRefreshToken
 
   TOKEN=$(curl --request POST \
-               --url https://id.mercedes-benz.com/as/token.oauth2 \
+               --url https://ssoalpha.dvb.corpinter.net/v1/token \
                --header "Authorization: Basic $BASE64" \
                --header "content-type: application/x-www-form-urlencoded" \
                --data "grant_type=refresh_token&refresh_token=$REFRESH_CODE")
